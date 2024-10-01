@@ -1,4 +1,4 @@
-import https from 'https';
+import ky from 'ky';
 
 export class NodePulse {
   constructor(options = {}) {
@@ -141,36 +141,18 @@ export class NodePulse {
     return output;
   }
 
-  fetchNodes() {
-    return new Promise((resolve, reject) => {
-      const url = new URL(this.options.apiUrl);
-      url.searchParams.append('type', this.options.nodeType);
-      url.searchParams.append('network', this.options.network);
-      url.searchParams.append('count', this.options.nodeCount);
+  async fetchNodes() {
+    const url = new URL(this.options.apiUrl);
+    url.searchParams.append('type', this.options.nodeType);
+    url.searchParams.append('network', this.options.network);
+    url.searchParams.append('count', this.options.nodeCount);
 
-      https.get(url, (res) => {
-        let data = '';
-
-        res.on('data', (chunk) => {
-          data += chunk;
-        });
-
-        res.on('end', () => {
-          if (res.statusCode === 200) {
-            try {
-              const nodes = JSON.parse(data);
-              resolve(nodes.map(node => node.url));
-            } catch (error) {
-              reject(new Error('Failed to parse response'));
-            }
-          } else {
-            reject(new Error(`HTTP status code: ${res.statusCode}`));
-          }
-        });
-      }).on('error', (error) => {
-        reject(error);
-      });
-    });
+    try {
+      const response = await ky.get(url.toString()).json();
+      return response.map(node => node.url);
+    } catch (error) {
+      throw new Error(`Failed to fetch nodes: ${error.message}`);
+    }
   }
 }
 
