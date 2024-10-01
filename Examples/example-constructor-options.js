@@ -1,4 +1,4 @@
-const NodePulse = require('../NodePulse');
+import NodePulse from '../NodePulse.js';
 
 const nodePulse = new NodePulse({
   nodeType: 'hyperion', // or 'atomic'
@@ -19,7 +19,6 @@ const nodePulse = new NodePulse({
 
 async function example() {
   try {
-
     const node = await nodePulse.getNode();
     console.log('Using node:', node);
     

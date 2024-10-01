@@ -1,6 +1,6 @@
-const axios = require('axios');
+import https from 'https';
 
-class NodePulse {
+export class NodePulse {
   constructor(options = {}) {
     this.options = {
       nodeType: options.nodeType || 'hyperion',
@@ -61,16 +61,9 @@ class NodePulse {
 
     while (retries < maxRetries) {
       try {
-        const response = await axios.get(this.options.apiUrl, {
-          params: {
-            type: this.options.nodeType,
-            network: this.options.network,
-            count: this.options.nodeCount,
-          },
-        });
-
-        if (response.status === 200 && response.data && response.data.length > 0) {
-          this.nodes = response.data.map(node => node.url);
+        const nodes = await this.fetchNodes();
+        if (nodes.length > 0) {
+          this.nodes = nodes;
           this.log('info', 'Updated nodes:', this.nodes);
           this.hooks.onNodeUpdate(this.nodes);
           this.nodesReady = true;
@@ -147,6 +140,38 @@ class NodePulse {
     });
     return output;
   }
+
+  fetchNodes() {
+    return new Promise((resolve, reject) => {
+      const url = new URL(this.options.apiUrl);
+      url.searchParams.append('type', this.options.nodeType);
+      url.searchParams.append('network', this.options.network);
+      url.searchParams.append('count', this.options.nodeCount);
+
+      https.get(url, (res) => {
+        let data = '';
+
+        res.on('data', (chunk) => {
+          data += chunk;
+        });
+
+        res.on('end', () => {
+          if (res.statusCode === 200) {
+            try {
+              const nodes = JSON.parse(data);
+              resolve(nodes.map(node => node.url));
+            } catch (error) {
+              reject(new Error('Failed to parse response'));
+            }
+          } else {
+            reject(new Error(`HTTP status code: ${res.statusCode}`));
+          }
+        });
+      }).on('error', (error) => {
+        reject(error);
+      });
+    });
+  }
 }
 
-module.exports = NodePulse;
+export default NodePulse;

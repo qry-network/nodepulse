@@ -1,4 +1,4 @@
-const NodePulse = require('../NodePulse');
+import NodePulse from '../NodePulse.js';
 
 const customDefaultNodes = {
   hyperion: {

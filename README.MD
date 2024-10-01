@@ -30,8 +30,7 @@ npm install @sentnl/nodepulse
 By Default it will provide you with 3 healthy Hyperion Mainnet nodes, to choose atomic and or testnet nodes you need to use custom options.
 
 ```js
-const NodePulse = require('@sentnl/nodepulse');
-
+import NodePulse from '@sentnl/nodepulse';
 
 // Initialize NodePulse with default options
 const nodePulse = new NodePulse();
@@ -49,7 +48,7 @@ You can customize the behavior of NodePulse by passing an options object when cr
 	•	network: Network to use ('mainnet' or 'testnet'). Default is mainnet
 	•	nodeCount: Number of nodes to retrieve from the API. Defaults is 3
 	•	updateInterval: How often (in milliseconds) to refresh the node list. Defaults is 30 seconds
-	•	apiUrl: The API URL to fetch healthy nodes. Defaults is https://proxy.nodepulse.co/nodes
+	•	apiUrl: The API URL to fetch healthy nodes. Defaults is https://nodes.nodepulse.co/nodes
 	•	defaultNodes: Custom default nodes to use as fallback. 
 
 
@@ -57,7 +56,7 @@ You can customize the behavior of NodePulse by passing an options object when cr
 **Example of using custom options with default node override:**
 
 ```js
-const NodePulse = require('@sentnl/nodepulse');
+import NodePulse from '@sentnl/nodepulse';
 
 const customDefaultNodes = {
   hyperion: {
@@ -102,6 +101,8 @@ Parameters:
 	•	defaultNodes (object, optional): Custom default nodes to use as fallback.
 
 ```js
+import NodePulse from '@sentnl/nodepulse';
+
 const customDefaultNodes = {
   hyperion: {
     mainnet: [
@@ -131,7 +132,7 @@ Returns the next healthy node from the internal list. If the node list is empty,
 **Example:**
 
 ```js
-const node = nodePulse.getNode();
+const node = await nodePulse.getNode();
 console.log(`Using node: ${node}`);
 ```
 
@@ -141,10 +142,9 @@ console.log(`Using node: ${node}`);
 This method allows for manually refreshing the list of nodes. By default, NodePulse automatically refreshes the list at regular intervals, but you can call this method manually if needed.
 
 ```js
-nodePulse.refreshNodes().then(() => {
-  const node = nodePulse.getNode();
-  console.log(`Manually refreshed. Using node: ${node}`);
-});
+await nodePulse.refreshNodes();
+const node = await nodePulse.getNode();
+console.log(`Manually refreshed. Using node: ${node}`);
 ```
 
 
@@ -289,7 +289,10 @@ Default value: console
 
 1. Increase verbosity to include info messages:
 
+
 ```js
+import NodePulse from '@sentnl/nodepulse';
+
 const nodePulse = new NodePulse({
   logLevel: 'info'
 });
@@ -298,6 +301,8 @@ const nodePulse = new NodePulse({
 2. Use a custom logger:
 
 ```js
+import NodePulse from '@sentnl/nodepulse';
+
 const customLogger = {
   error: (message) => { /* custom error logging */ },
   warn: (message) => { /* custom warn logging */ },
@@ -313,6 +318,8 @@ const nodePulse = new NodePulse({
 3. Suppress all logs except errors:
 
 ```js
+import NodePulse from '@sentnl/nodepulse';
+
 const nodePulse = new NodePulse({
   logLevel: 'error'
 });
