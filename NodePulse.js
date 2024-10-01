@@ -7,7 +7,7 @@ class NodePulse {
       network: options.network || 'mainnet',
       nodeCount: options.nodeCount || 3,
       updateInterval: options.updateInterval || 30000,
-      apiUrl: options.apiUrl || 'https://proxy.nodepulse.co/nodes',
+      apiUrl: options.apiUrl || 'https://nodes.nodepulse.co/nodes',
       logLevel: options.logLevel || 'warn',
     };
 
