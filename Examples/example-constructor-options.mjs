@@ -5,7 +5,9 @@ const nodePulse = new NodePulse({
   network: 'mainnet', // or 'testnet'
   nodeCount: 3,
   updateInterval: 30000, // 30 seconds
-  apiUrl: 'https://nodes.nodepulse.co/nodes',
+  apiUrl: 'http://127.0.0.1:3000/nodes',
+  historyfull: true,
+  streamingEnabled: true,
   onNodeUpdate: (nodes) => {
     console.log('Nodes updated:', nodes);
   },

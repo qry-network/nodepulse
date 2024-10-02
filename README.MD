@@ -44,14 +44,14 @@ console.log(`Using node: ${node}`);
 
 You can customize the behavior of NodePulse by passing an options object when creating an instance. Available options include:
 
-	•	nodeType: Type of nodes to use ('hyperion' or 'atomic'). Default is hyperion
-	•	network: Network to use ('mainnet' or 'testnet'). Default is mainnet
-	•	nodeCount: Number of nodes to retrieve from the API. Defaults is 3
-	•	updateInterval: How often (in milliseconds) to refresh the node list. Defaults is 30 seconds
-	•	apiUrl: The API URL to fetch healthy nodes. Defaults is https://nodes.nodepulse.co/nodes
-	•	defaultNodes: Custom default nodes to use as fallback. 
-
-
+- `nodeType`: Type of nodes to use ('hyperion' or 'atomic'). Default is 'hyperion'
+- `network`: Network to use ('mainnet' or 'testnet'). Default is 'mainnet'
+- `nodeCount`: Number of nodes to retrieve from the API. Default is 3
+- `updateInterval`: How often (in milliseconds) to refresh the node list. Default is 30 seconds
+- `apiUrl`: The API URL to fetch healthy nodes. Default is 'https://nodes.nodepulse.co/nodes'
+- `defaultNodes`: Custom default nodes to use as fallback
+- `historyfull`: (Hyperion only) Whether to return nodes with full history. Default is true
+- `streamingEnabled`: (Hyperion only) Whether to return nodes with streaming enabled. Default is true
 
 **Example of using custom options with default node override:**
 
@@ -74,8 +74,10 @@ const nodePulse = new NodePulse({
   network: 'mainnet',
   nodeCount: 5,
   updateInterval: 60000, // Refresh every minute
-  apiUrl: 'http://nodepulse.sentnl.io/nodes',
-  defaultNodes: customDefaultNodes
+  apiUrl: 'https://nodes.nodepulse.co/nodes',
+  defaultNodes: customDefaultNodes,
+  historyfull: false,
+  streamingEnabled: false
 });
 
 // Retrieve a node from the custom configuration
@@ -92,13 +94,15 @@ The constructor initializes the NodePulse instance.
 
 Parameters:
 
-	•	options (object):
-	•	nodeType (string, default: 'hyperion'): Type of node ('hyperion' or 'atomic').
-	•	network (string, default: 'mainnet'): Which network to connect to ('mainnet' or 'testnet').
-	•	nodeCount (number, default: 3): How many nodes to fetch from the API.
-	•	updateInterval (number, default: 30000): Interval for refreshing the node list, in milliseconds.
-	•	apiUrl (string, default: 'http://nodepulse.sentnl.io/nodes'): The API URL from which to fetch the healthy node list.  (For now Sentnl are the only ones running this, but we hope more providers will offer this service in the future.)
-	•	defaultNodes (object, optional): Custom default nodes to use as fallback.
+- `options` (object):
+  - `nodeType` (string, default: 'hyperion'): Type of node ('hyperion' or 'atomic').
+  - `network` (string, default: 'mainnet'): Which network to connect to ('mainnet' or 'testnet').
+  - `nodeCount` (number, default: 3): How many nodes to fetch from the API.
+  - `updateInterval` (number, default: 30000): Interval for refreshing the node list, in milliseconds.
+  - `apiUrl` (string, default: 'https://nodes.nodepulse.co/nodes'): The API URL from which to fetch the healthy node list.
+  - `defaultNodes` (object, optional): Custom default nodes to use as fallback.
+  - `historyfull` (boolean, default: true): Whether to return Hyperion nodes with full history.
+  - `streamingEnabled` (boolean, default: true): Whether to return Hyperion nodes with streaming enabled.
 
 ```js
 import NodePulse from '@sentnl/nodepulse';
@@ -118,8 +122,10 @@ const nodePulse = new NodePulse({
   network: 'mainnet',
   nodeCount: 3,
   updateInterval: 60000,
-  apiUrl: 'http://api.custom.com/nodes',
-  defaultNodes: customDefaultNodes
+  apiUrl: 'https://nodes.nodepulse.co/nodes',
+  defaultNodes: customDefaultNodes,
+  historyfull: true,
+  streamingEnabled: false
 });
 ```
 
@@ -209,7 +215,7 @@ onNodeUpdate: (nodes) => {
 
 Parameters:
 
-	•	nodes: The list of updated node URLs.
+- `nodes`: The list of updated node URLs.
 
 
 ### onError(error)
@@ -224,7 +230,7 @@ onError: (error) => {
 
 Parameters:
 
-	•	error: The error object.
+- `error`: The error object.
 
 
 ### onFallback(fallbackType, nodes)
@@ -243,8 +249,8 @@ onFallback: (fallbackType, nodes) => {
 
 Parameters:
 
-	•	fallbackType: A string indicating the fallback type. It can either be 'existing' (using the existing node list) or 'default' (using the default nodes).
-	•	nodes: The list of fallback node URLs.
+- `fallbackType`: A string indicating the fallback type. It can either be 'existing' (using the existing node list) or 'default' (using the default nodes).
+- `nodes`: The list of fallback node URLs.
 
 
 

@@ -9,6 +9,8 @@ export class NodePulse {
       updateInterval: options.updateInterval || 30000,
       apiUrl: options.apiUrl || 'https://nodes.nodepulse.co/nodes',
       logLevel: options.logLevel || 'warn',
+      historyfull: options.historyfull !== undefined ? options.historyfull : true,
+      streamingEnabled: options.streamingEnabled !== undefined ? options.streamingEnabled : true,
     };
 
     this.logger = options.logger || console;
@@ -146,10 +148,20 @@ export class NodePulse {
     url.searchParams.append('type', this.options.nodeType);
     url.searchParams.append('network', this.options.network);
     url.searchParams.append('count', this.options.nodeCount);
+    
+    if (this.options.nodeType === 'hyperion') {
+      url.searchParams.append('historyfull', this.options.historyfull);
+      url.searchParams.append('streaming', this.options.streamingEnabled);
+    }
 
     try {
       const response = await ky.get(url.toString()).json();
-      return response.map(node => node.url);
+      return this.options.nodeType === 'hyperion'
+        ? response.filter(node => 
+            (this.options.historyfull === node.historyfull) &&
+            (this.options.streamingEnabled === node.streaming.enable)
+          ).map(node => node.url)
+        : response.map(node => node.url);
     } catch (error) {
       throw new Error(`Failed to fetch nodes: ${error.message}`);
     }
