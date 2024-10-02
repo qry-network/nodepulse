@@ -52,8 +52,10 @@ You can customize the behavior of NodePulse by passing an options object when cr
 - `defaultNodes`: Custom default nodes to use as fallback
 - `historyfull`: (Hyperion only) Whether to return nodes with full history. Default is true
 - `streamingEnabled`: (Hyperion only) Whether to return nodes with streaming enabled. Default is true
+- `atomicassets`: (Atomic only) Whether to return nodes with atomicassets support. Default is true
+- `atomicmarket`: (Atomic only) Whether to return nodes with atomicmarket support. Default is true
 
-**Example of using custom options with default node override:**
+**Example of using custom options with default node override for Hyperion Mainnet:**
 
 ```js
 import NodePulse from '@sentnl/nodepulse';
@@ -85,6 +87,26 @@ const node = nodePulse.getNode();
 console.log(`Using node: ${node}`);
 ```
 
+**Example of using custom options with default node override for Atomic Mainnet:**
+
+```js
+import NodePulse from '@sentnl/nodepulse';
+
+// Initialize with custom options and default nodes
+const nodePulse = new NodePulse({
+  nodeType: 'atomic',
+  network: 'mainnet',
+  nodeCount: 5,
+  updateInterval: 60000, // Refresh every minute
+  apiUrl: 'https://nodes.nodepulse.co/nodes',
+  atomicassets: false,
+  atomicmarket: false
+});
+
+// Retrieve a node from the custom configuration
+const node = nodePulse.getNode();
+console.log(`Using node: ${node}`);
+```
 
 ## Class Methods
 
@@ -103,6 +125,8 @@ Parameters:
   - `defaultNodes` (object, optional): Custom default nodes to use as fallback.
   - `historyfull` (boolean, default: true): Whether to return Hyperion nodes with full history.
   - `streamingEnabled` (boolean, default: true): Whether to return Hyperion nodes with streaming enabled.
+  - `atomicassets` (boolean, default: true): Whether to return Atomic nodes with atomicassets support.
+  - `atomicmarket` (boolean, default: true): Whether to return Atomic nodes with atomicmarket support.
 
 ```js
 import NodePulse from '@sentnl/nodepulse';

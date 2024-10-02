@@ -11,6 +11,8 @@ export class NodePulse {
       logLevel: options.logLevel || 'warn',
       historyfull: options.historyfull !== undefined ? options.historyfull : true,
       streamingEnabled: options.streamingEnabled !== undefined ? options.streamingEnabled : true,
+      atomicassets: options.atomicassets !== undefined ? options.atomicassets : true,
+      atomicmarket: options.atomicmarket !== undefined ? options.atomicmarket : true,
     };
 
     this.logger = options.logger || console;
@@ -152,16 +154,26 @@ export class NodePulse {
     if (this.options.nodeType === 'hyperion') {
       url.searchParams.append('historyfull', this.options.historyfull);
       url.searchParams.append('streaming', this.options.streamingEnabled);
+    } else if (this.options.nodeType === 'atomic') {
+      url.searchParams.append('atomicassets', this.options.atomicassets);
+      url.searchParams.append('atomicmarket', this.options.atomicmarket);
     }
 
     try {
       const response = await ky.get(url.toString()).json();
-      return this.options.nodeType === 'hyperion'
-        ? response.filter(node => 
-            (this.options.historyfull === node.historyfull) &&
-            (this.options.streamingEnabled === node.streaming.enable)
-          ).map(node => node.url)
-        : response.map(node => node.url);
+      if (this.options.nodeType === 'hyperion') {
+        return response.filter(node => 
+          (this.options.historyfull === node.historyfull) &&
+          (this.options.streamingEnabled === node.streaming.enable)
+        ).map(node => node.url);
+      } else if (this.options.nodeType === 'atomic') {
+        return response.filter(node => 
+          (this.options.atomicassets === node.atomic.atomicassets) &&
+          (this.options.atomicmarket === node.atomic.atomicmarket)
+        ).map(node => node.url);
+      } else {
+        return response.map(node => node.url);
+      }
     } catch (error) {
       throw new Error(`Failed to fetch nodes: ${error.message}`);
     }
