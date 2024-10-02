@@ -5,7 +5,6 @@ const nodePulse = new NodePulse({
   network: 'mainnet', 
   nodeCount: 3,
   updateInterval: 30000, // 30 seconds
-  apiUrl: 'http://127.0.0.1:3000/nodes',
   atomicassets: true,
   atomicmarket: true,
   onNodeUpdate: (nodes) => {
@@ -24,11 +23,11 @@ async function example() {
     const node = await nodePulse.getNode();
     console.log('Using node:', node);
     
-    const response = await fetch(`${node}/v1/chain/get_info`);
-    const chainInfo = await response.json();
-    console.log('Chain info:', chainInfo);
+    const response = await fetch(`${node}/atomicmarket/v1/assets?owner=sentnlagents&page=1&limit=100&order=desc&sort=asset_id`);
+    const assets = await response.json();
+    console.log('Assets:', assets);
   } catch (error) {
-    console.error('Failed to get chain info:', error.message);
+    console.error('Failed to get assets:', error.message);
   }
 }
 
