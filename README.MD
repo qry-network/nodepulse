@@ -1,4 +1,18 @@
-# NodePulse 
+
+
+<div align="center">
+
+# # NodePulse 
+[![NPM Package](https://img.shields.io/badge/NPM_Package-Published-cc3534)](https://www.npmjs.com/package/@sentnl/nodepulse)
+
+
+**Maintain and utilize a list of healthy nodes.**
+
+
+[Get Started](#get-started)  | [Examples](examples) 
+
+</div>
+
 
 NodePulse is a lightweight JavaScript library designed to help developers maintain and utilize a list of healthy nodes (Currently it supports Hyperion and Atomic API nodes). The library connects to an Cloudflare Load Balanced API https://proxy.nodepulse.co/ (Which in turn connects to 3 backend APIs running on different cloud platforms) that provides a list of healthy nodes, which it regularly refreshes, and falls back to a predefined list of default nodes in case of not being able to contact any of the backends. 
 
@@ -15,7 +29,7 @@ For now only the WAX network is supported.
 - **Custom Default Nodes**: Allows overriding of default nodes for specific node types and networks
 - **Network Supported**: WAX 
 
-## Usage
+## Get-started
 
 
 ### Install the package
