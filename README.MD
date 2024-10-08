@@ -74,7 +74,7 @@ You can customize the behavior of NodePulse by passing an options object when cr
 **Example of using custom options with default node override for Hyperion Mainnet:**
 
 ```js
-import NodePulse from '@sentnl/nodepulse';
+import { NodePulse } from '@sentnl/nodepulse';
 
 const customDefaultNodes = {
   hyperion: {
@@ -106,7 +106,7 @@ console.log(`Using node: ${node}`);
 **Example of using custom options with default node override for Atomic Mainnet:**
 
 ```js
-import NodePulse from '@sentnl/nodepulse';
+import { NodePulse } from '@sentnl/nodepulse';
 
 // Initialize with custom options and default nodes
 const nodePulse = new NodePulse({
@@ -127,7 +127,7 @@ console.log(`Using node: ${node}`);
 **Example of using QryHub to fetch Hyperion nodes for the Jungle testnet:**
 
 ```js
-import NodePulse from '@sentnl/nodepulse';
+import { NodePulse } from '@sentnl/nodepulse';
 
 const nodePulse = new NodePulse({
   useQryHub: true,
@@ -167,7 +167,7 @@ Parameters:
   - `chainId` (string, required if `useQryHub` is true): The chain ID to use when fetching nodes from QryHub.
 
 ```js
-import NodePulse from '@sentnl/nodepulse';
+import { NodePulse } from '@sentnl/nodepulse';
 
 const customDefaultNodes = {
   hyperion: {
@@ -372,7 +372,7 @@ Default value: console
 
 
 ```js
-import NodePulse from '@sentnl/nodepulse';
+import { NodePulse } from '@sentnl/nodepulse';
 
 const nodePulse = new NodePulse({
   logLevel: 'info'
@@ -382,7 +382,7 @@ const nodePulse = new NodePulse({
 2. Use a custom logger:
 
 ```js
-import NodePulse from '@sentnl/nodepulse';
+import { NodePulse } from '@sentnl/nodepulse';
 
 const customLogger = {
   error: (message) => { /* custom error logging */ },
@@ -399,7 +399,7 @@ const nodePulse = new NodePulse({
 3. Suppress all logs except errors:
 
 ```js
-import NodePulse from '@sentnl/nodepulse';
+import { NodePulse } from '@sentnl/nodepulse';
 
 const nodePulse = new NodePulse({
   logLevel: 'error'
