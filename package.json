@@ -24,7 +24,7 @@
     "access": "public"
   },
   "files": [
-    "/lib"
+    "/lib",
     "README.md"
   ],
   "repository": {
