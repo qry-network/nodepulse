@@ -1,30 +1,30 @@
-import NodePulse from '../NodePulse.js';
+import {NodePulse} from "../lib/index.js";
 
 const customDefaultNodes = {
-  hyperion: {
-    mainnet: [
-      'https://wax.eosrio.io',
-      'https://api.waxsweden.org',
-      'https://wax.eu.eosamsterdam.net'
-    ]
-  }
+    hyperion: {
+        mainnet: [
+            'https://wax.eosrio.io',
+            'https://api.waxsweden.org',
+            'https://wax.eu.eosamsterdam.net'
+        ]
+    }
 };
 
 const nodePulse = new NodePulse({
-  defaultNodes: customDefaultNodes
+    defaultNodes: customDefaultNodes
 });
 
 async function example() {
-  try {
-    const node = await nodePulse.getNode();
-    console.log('Using node:', node);
-    
-    const response = await fetch(`${node}/v1/chain/get_info`);
-    const chainInfo = await response.json();
-    console.log('Chain info:', chainInfo);
-  } catch (error) {
-    console.error('Failed to get chain info:', error.message);
-  }
+    try {
+        const node = await nodePulse.getNode();
+        console.log('Using node:', node);
+
+        const response = await fetch(`${node}/v1/chain/get_info`);
+        const chainInfo = await response.json();
+        console.log('Chain info:', chainInfo);
+    } catch (error) {
+        console.error('Failed to get chain info:', error.message);
+    }
 }
 
 example();

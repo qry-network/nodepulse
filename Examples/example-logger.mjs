@@ -1,21 +1,21 @@
-import NodePulse from '../NodePulse.js';
+import {NodePulse} from "../lib/index.js";
 
 const nodePulse = new NodePulse({
-    logLevel: 'info', //Sets logging to info 
-  });
+    logLevel: 'info', //Sets logging to info
+});
 
 async function example() {
-  try {
+    try {
 
-    const node = await nodePulse.getNode();
-    console.log('Using node:', node);
+        const node = await nodePulse.getNode();
+        console.log('Using node:', node);
 
-    const response = await fetch(`${node}/v1/chain/get_info`);
-    const chainInfo = await response.json();
-    console.log('Chain info:', chainInfo);
-  } catch (error) {
-    console.error('Failed to get chain info:', error.message);
-  }
+        const response = await fetch(`${node}/v1/chain/get_info`);
+        const chainInfo = await response.json();
+        console.log('Chain info:', chainInfo);
+    } catch (error) {
+        console.error('Failed to get chain info:', error.message);
+    }
 }
 
 example();
