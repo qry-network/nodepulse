@@ -1,15 +1,22 @@
 {
-  "type": "module",
-  "dependencies": {
-    "ky": "^1.7.2",
-    "node-fetch": "^3.2.0"
-  },
   "name": "@sentnl/nodepulse",
   "version": "1.0.12",
   "description": "NodePulse is a lightweight JavaScript library designed to help developers maintain and utilize a list of healthy nodes (Currently it supports Hyperion and Atomic API nodes). The library connects to an API that provides a list of healthy nodes, which it regularly refreshes, and can fallback to a predefined list of default nodes in case of API failure.",
-  "main": "NodePulse.js",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "exports": {
+    ".": "./lib/index.js"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "example": "node lib/test.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "tsc"
+  },
+  "type": "module",
+  "devDependencies": {
+    "typescript": "^5.6.2"
   },
   "keywords": [],
   "author": "",
@@ -18,7 +25,7 @@
     "access": "public"
   },
   "files": [
-    "NodePulse.js",
+    "/dist",
     "README.md"
   ],
   "repository": {
