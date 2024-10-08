@@ -1,5 +1,4 @@
 
-
 <div align="center">
 
 # # NodePulse 
@@ -68,11 +67,14 @@ You can customize the behavior of NodePulse by passing an options object when cr
 - `streamingEnabled`: (Hyperion only) Whether to return nodes with streaming enabled. Default is true
 - `atomicassets`: (Atomic only) Whether to return nodes with atomicassets support. Default is true
 - `atomicmarket`: (Atomic only) Whether to return nodes with atomicmarket support. Default is true
+- `useQryHub`: Whether to use QryHub for fetching nodes. Default is false
+- `qryHubApiUrl`: Custom QryHub API URL (optional, only used if `useQryHub` is true)
+- `chainId`: The chain ID to use when fetching nodes from QryHub (required if `useQryHub` is true)
 
 **Example of using custom options with default node override for Hyperion Mainnet:**
 
 ```js
-import NodePulse from '@sentnl/nodepulse';
+import { NodePulse } from '@sentnl/nodepulse';
 
 const customDefaultNodes = {
   hyperion: {
@@ -104,7 +106,7 @@ console.log(`Using node: ${node}`);
 **Example of using custom options with default node override for Atomic Mainnet:**
 
 ```js
-import NodePulse from '@sentnl/nodepulse';
+import { NodePulse } from '@sentnl/nodepulse';
 
 // Initialize with custom options and default nodes
 const nodePulse = new NodePulse({
@@ -119,6 +121,25 @@ const nodePulse = new NodePulse({
 
 // Retrieve a node from the custom configuration
 const node = nodePulse.getNode();
+console.log(`Using node: ${node}`);
+```
+
+**Example of using QryHub to fetch Hyperion nodes for the Jungle testnet:**
+
+```js
+import { NodePulse } from '@sentnl/nodepulse';
+
+const nodePulse = new NodePulse({
+  useQryHub: true,
+  chainId: '73e4385a2708e6d7048834fbc1079f2fabb17b3c125b146af438971e90716c4d',
+  nodeType: 'hyperion',
+  nodeCount: 3,
+  updateInterval: 30000,
+  historyfull: true,
+  streamingEnabled: true
+});
+
+const node = await nodePulse.getNode();
 console.log(`Using node: ${node}`);
 ```
 
@@ -141,9 +162,12 @@ Parameters:
   - `streamingEnabled` (boolean, default: true): Whether to return Hyperion nodes with streaming enabled.
   - `atomicassets` (boolean, default: true): Whether to return Atomic nodes with atomicassets support.
   - `atomicmarket` (boolean, default: true): Whether to return Atomic nodes with atomicmarket support.
+  - `useQryHub` (boolean, default: false): Whether to use QryHub for fetching nodes.
+  - `qryHubApiUrl` (string, optional): Custom QryHub API URL. Only used if `useQryHub` is true.
+  - `chainId` (string, required if `useQryHub` is true): The chain ID to use when fetching nodes from QryHub.
 
 ```js
-import NodePulse from '@sentnl/nodepulse';
+import { NodePulse } from '@sentnl/nodepulse';
 
 const customDefaultNodes = {
   hyperion: {
@@ -167,6 +191,19 @@ const nodePulse = new NodePulse({
 });
 ```
 
+Example using QryHub:
+
+```js
+const nodePulse = new NodePulse({
+  useQryHub: true,
+  chainId: '73e4385a2708e6d7048834fbc1079f2fabb17b3c125b146af438971e90716c4d',
+  nodeType: 'hyperion',
+  nodeCount: 3,
+  updateInterval: 30000,
+  historyfull: true,
+  streamingEnabled: true
+});
+```
 
 ### getNode()
 
@@ -335,7 +372,7 @@ Default value: console
 
 
 ```js
-import NodePulse from '@sentnl/nodepulse';
+import { NodePulse } from '@sentnl/nodepulse';
 
 const nodePulse = new NodePulse({
   logLevel: 'info'
@@ -345,7 +382,7 @@ const nodePulse = new NodePulse({
 2. Use a custom logger:
 
 ```js
-import NodePulse from '@sentnl/nodepulse';
+import { NodePulse } from '@sentnl/nodepulse';
 
 const customLogger = {
   error: (message) => { /* custom error logging */ },
@@ -362,7 +399,7 @@ const nodePulse = new NodePulse({
 3. Suppress all logs except errors:
 
 ```js
-import NodePulse from '@sentnl/nodepulse';
+import { NodePulse } from '@sentnl/nodepulse';
 
 const nodePulse = new NodePulse({
   logLevel: 'error'
